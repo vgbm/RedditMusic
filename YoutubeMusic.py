@@ -20,6 +20,7 @@ browser = webdriver.Firefox()
 
 subreddit = raw_input("Subreddit:: ")
 numSongs = raw_input("Number of songs played:: ")
+
 songListSubmissions = reddit.get_subreddit(subreddit).get_top(limit=int(numSongs))
 songList = [song for song in songListSubmissions]
 
@@ -28,4 +29,5 @@ for song in songList:
     browser.get(url)
     print getVideoLength(url)
     time.sleep(getVideoLength(url))
-    
+
+browser.quit()
