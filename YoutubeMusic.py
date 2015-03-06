@@ -22,9 +22,9 @@ def printList(list):
 reddit = praw.Reddit(user_agent="Music Player")
 
 subreddit = raw_input("Subreddit:: ")
-numSongs = raw_input("Number of songs played:: ")
+numSongs = raw_input("Number of submissions to fetch (only youtube links will be played):: ")
 
-songListSubmissions = reddit.get_subreddit(subreddit).get_top(limit=int(numSongs))
+songListSubmissions = reddit.get_subreddit(subreddit).get_hot(limit=int(numSongs))
 songList = [song for song in songListSubmissions]
 
 print "\nSong List::"
@@ -34,11 +34,14 @@ browser = webdriver.Firefox()
 
 for song in songList:
     url = song.url
-    browser.get(url)
 
     if "youtube" in url:
-        time.sleep(getVideoLength(url)+5) #accounting for ad length
-    else:
-        time.sleep(300) #sleep 5 min if cant get the time delay
+        browser.get(url)
+        time.sleep(getVideoLength(url)+5) #5 seconds accounting for ads
+
+    elif "youtu.be" in url:
+        browser.get(url)
+        mod_url = browser.current_url[:browser.current_url.index('&')] #removing &feature=youtu.be part
+        time.sleep(getVideoLength(mod_url)+5)
         
 browser.quit()

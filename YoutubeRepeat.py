@@ -14,7 +14,7 @@ def getVideoLength(songURL): #for youtube shit
 
     return v
 
-URL = raw_input("Enter the URL")
+URL = raw_input("Enter the URL:: ")
 browser = webdriver.Firefox()
 
 delayTime = getVideoLength(URL)
